@@ -18,14 +18,21 @@ const isolateName = "NotificationListenerService";
 final player = AudioPlayer(playerId: "myID");
 
 void onNotificationStateChange() {
-  plugin.executeNotificationListener((evt) {
+  plugin.executeNotificationListener((evt) async {
     debugPrint("$evt");
     if (evt!.state == NotificationState.post) {
+      await player.play(
+        UrlSource(
+          "https://jesusful.com/wp-content/uploads/music/2021/07/Pharrell_Williams_-_Happy_(Naijay.com).mp3",
+        ),
+      );
       SendPort? sendPort = IsolateNameServer.lookupPortByName(isolateName);
       debugPrint("send port with name $isolateName is $sendPort");
       if (sendPort != null) {
         sendPort.send(evt.packageName);
       }
+    } else {
+      await player.stop();
     }
   });
 }

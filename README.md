@@ -16,15 +16,51 @@ function
 ## How to use plugin?
 
 ```dart
-void callbackFunction() {
-  NotificationServicePlugin.instance.executeNotificationListener((notificationEvent) {
-    print("received notification info: $notificationEvent");
-  });
-}
-
-Future<void> main() async {
-  await NotificationServicePlugin.instance.initialize(callbackFunction);
-  runApp(MyApp());
-}
+  import 'package:notifications_listener_service/notifications_listener_service.dart';
+  
+  void callbackFunction() {
+    NotificationServicePlugin.instance.executeNotificationListener((notificationEvent) {
+      print("received notification info: $notificationEvent");
+    });
+  }
+  
+  Future<void> main() async {
+    await NotificationServicePlugin.instance.initialize(callbackFunction);
+    runApp(MyApp());
+  }
 ```
+
+## Features
+
+  * Getting Device Information 
+
+  ```dart
+    Future<DeviceInfo?> fetchingDeviceInfo() async {
+      final DeviceInfo? deviceInfo = await NotificationServicePlugin.instance.getDeviceInfo();
+    }
+  ```
+  
+  * Check if permission granted or not
+
+  ```dart
+    Future<bool> isNotificationPermissionGranted() async {
+      final bool isGranted = await NotificationServicePlugin.instance.isServicePermissionGranted();
+    }
+  ```
+  
+  * Requesting notification listener service permission
+
+  ```dart
+    Future<void> requestNotificationServicePermission() async {
+      await NotificationServicePlugin.instance.requestServicePermission();
+    }
+  ```
+  
+  * Requesting notification listener service permission if not granted
+
+  ```dart
+    Future<void> requestNotificationServicePermissionIfNotGranted() async {
+      await NotificationServicePlugin.instance.requestPermissionsIfDenied();
+    }
+  ```
 
